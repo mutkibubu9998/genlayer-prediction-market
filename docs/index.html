@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PredictionMarket — YES/NO markets resolved by GenLayer consensus</title>
+  <meta name="description" content="A YES/NO prediction market on GenLayer StudioNet. Markets are resolved by validator consensus using live web evidence and an LLM." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f5b942'/%3E%3Ctext x='16' y='23' font-size='18' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='%231a1405'%3E?%3C/text%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="/genlayer-prediction-market/assets/index-D8kpbWXh.js"></script>
+  <link rel="stylesheet" crossorigin href="/genlayer-prediction-market/assets/index-Da-qf4or.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <div>
+        <h1>PredictionMarket</h1>
+        <p class="sub">YES/NO prediction markets, settled by GenLayer validator consensus — live web evidence + LLM verdict, no oracle.</p>
+      </div>
+      <div class="net">
+        <span class="badge">GenLayer StudioNet · test network</span>
+        <span class="badge dim">GEN here has no real value</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card" id="contract-card">
+      <div class="row between">
+        <div>
+          <div class="label">Intelligent Contract</div>
+          <code id="contract-addr">0x0170f655B02435d3fA95fd883d43e57F7beAfe71</code>
+          <a id="explorer-link" target="_blank" rel="noopener" href="https://explorer-studio.genlayer.com/address/0x0170f655B02435d3fA95fd883d43e57F7beAfe71">View on StudioNet explorer ↗</a>
+        </div>
+        <div class="pool">
+          <div class="label">Pool balance</div>
+          <div class="big" id="pool-balance">…</div>
+        </div>
+      </div>
+      <div class="row" id="wallet-row">
+        <button id="btn-metamask" class="btn primary">Connect MetaMask</button>
+        <button id="btn-demo" class="btn">Use demo account</button>
+        <button id="btn-disconnect" class="btn ghost hidden">Disconnect</button>
+        <span id="wallet-status" class="muted">Not connected — reads work without a wallet. Writes need MetaMask or a demo account.</span>
+      </div>
+      <p class="hint">MetaMask: adds the GenLayer Studio network (chain 61999) and signs with your wallet. Demo account: a fresh throwaway key stored only in this browser — it can create markets, stake, resolve and claim on StudioNet, and holds no real funds.</p>
+    </section>
+
+    <section class="card">
+      <h2>Create a market</h2>
+      <form id="create-form">
+        <label>Question
+          <input id="q-question" type="text" maxlength="500" required placeholder="e.g. Will the repo still be public on GitHub on 2026-11-26?" />
+        </label>
+        <label>Evidence URL <span class="muted">(validators fetch this page to decide)</span>
+          <input id="q-url" type="url" maxlength="500" required placeholder="https://…" />
+        </label>
+        <label>Deadline (UTC)
+          <input id="q-deadline" type="datetime-local" required />
+        </label>
+        <button class="btn primary" type="submit" id="btn-create">Create market</button>
+        <span id="create-status" class="muted"></span>
+      </form>
+    </section>
+
+    <section>
+      <div class="row between">
+        <h2>Markets <span id="market-count" class="muted"></span></h2>
+        <button id="btn-refresh" class="btn small">Refresh</button>
+      </div>
+      <div id="markets"><p class="muted">Loading markets from StudioNet…</p></div>
+    </section>
+
+    <section class="card">
+      <h2>Activity</h2>
+      <ul id="activity" class="activity"><li class="muted">No transactions yet this session.</li></ul>
+    </section>
+
+    <footer class="muted">
+      <p>How resolution works: after the deadline anyone can call resolve — the leader validator fetches the evidence URL and asks an LLM for a strict JSON verdict (YES / NO / VOID); every validator independently re-fetches and re-runs the LLM, and the outcome is accepted only on exact agreement. Winners claim pro-rata from the pot; VOID (or no winning stakes) refunds everyone.</p>
+      <p>Contract source &amp; tests: <a target="_blank" rel="noopener" href="https://github.com/mutkibubu9998/genlayer-prediction-market">github.com/mutkibubu9998/genlayer-prediction-market</a> · Deployed to StudioNet (gasless) 2026-11-19 · This page talks to the contract directly through the <code>genlayer-js</code> SDK — no backend, no fake data.</p>
+    </footer>
+  </main>
+
+</body>
+</html>

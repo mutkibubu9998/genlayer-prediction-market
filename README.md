@@ -103,6 +103,31 @@ genlayer receipt --tx <tx-hash>
 No Bradbury deploy, no faucet claim — those need GEN / 0.01 ETH on mainnet
 and are out of scope for this free build.
 
+## Frontend (Project — live app)
+
+A static single-page app that talks to the deployed StudioNet contract
+directly through `genlayer-js` — no backend, no fake data:
+
+- **Live:** https://mutkibubu9998.github.io/genlayer-prediction-market/
+- **Source:** `frontend/` (Vite + `genlayer-js` 1.1.8; build output in `docs/`,
+  served by GitHub Pages from `main` / `docs`)
+- Lists markets live from `list_markets`, shows question / evidence /
+  deadline / status / outcome / YES-NO totals / pool balance; create a market,
+  stake YES/NO, resolve after the deadline, and claim — all as real StudioNet
+  transactions. Reads need no wallet; writes use MetaMask (GenLayer Studio
+  network, chain 61999) or a throwaway in-browser demo account.
+- Verified end-to-end 2026-11-19 in headless Chromium: page renders live
+  state; a demo-account stake of 1 GEN on `mkt_0` was accepted on-chain
+  (tx `0xa4a775ae76b005c27e75da08a012becf0c01488190e39fbda0284fe03db5cea0`).
+  StudioNet is gasless and 0-GEN accounts can transact, so staking works for
+  any visitor. First market `mkt_0` was created the same day via the same
+  `genlayer-js` write path (tx `0x0300baf5b492e0c5cd6e7be9854af4b8c70e727bc16a36c24a87052b2b1c00cf`).
+
+```bash
+cd frontend && npm install && npm run build   # builds into ../docs
+npm run smoke                                   # node read + create_market check
+```
+
 ## Portal submission
 
 Draft (do NOT submit from here): `../submissions/prediction-market-submission.md`
